@@ -29,6 +29,7 @@ $app->get('/',$delay,function() use ($app, $Cache) {
 $app->put('/task/:id',$delay,function($id) use ($app, $Cache) { 
 	$body = $app->request->getBody();
 	$jA = json_decode($body);
+	$taskJ = array();
 	if( $Cache->isCached("task") ){
 		$task = $Cache->retrieve("task");
 
@@ -36,17 +37,17 @@ $app->put('/task/:id',$delay,function($id) use ($app, $Cache) {
 			if( $key = $id ){
 				$task[$key]['name'] = $jA->name;
 				$task[$key]['order'] = $jA->order;
-				
+				$taskJ = $task[$key]; 
 			}	
 		}
 
 		 $Cache->store("task" , $task  );
 	}else{
 
-		$task = array();
+		$taskJ = array();
 	}
-
-
+	
+	echo json_encode( $taskJ );
 
  } );
 $app->post('/task',$delay,function() use ($app, $Cache) { 
@@ -87,8 +88,7 @@ $app->get('/task',$delay,function() use ($app, $Cache) {
 	}
 
 
-	// Para simular 	
-	sleep(2);
+	
 	echo json_encode(  array( "data" => $task ) );
 	 
 	
@@ -157,7 +157,27 @@ $app->get('/task/:id/status',$delay,function($id) use ($app, $Cache) {
 
  });
 
+$app->get('/task/:id/subtask', $delay,function($id) use ($app,$Cache ) {
 
+	if( $Cache->isCached($id."_sutask") ){
+		$taskt = $Cache->retrieve($id."_sutask");
+		$task = array();
+		foreach ($taskt as $key => $value) {
+			# code...
+			$task[] = $value;
+		}
+	}else{
+
+		$task[] = array("id" => time() , "name" => "n".time() , "order" => "10");
+	}
+
+
+	// Para simular 	
+	sleep(2);
+	echo json_encode(  array( "data" => $task ) );
+
+
+});
 
 
 $app->run();

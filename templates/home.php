@@ -9,8 +9,13 @@
 	<script src="static/js/libs/modernizr.js"></script>
 	<style type="text/css">
 
-		#loading{
-			display: none;
+		.loading:after{
+			content: " ";
+		}
+		.loading{
+			content: " ";
+			background-image: url("static/img/ajax-loader.gif");
+			background-repeat: no-repeat;
 		}
 
 		
@@ -27,10 +32,13 @@
 		
 	</div>
 	<div class="small-9 columns">
-		<div id="loading">
-			<img src="static/img/ajax-loader.gif" />
+		<div class="loading">
+			&nbsp;
 		</div>
 		<table id="page">
+
+		</table>
+		<table id="list_A">
 
 		</table>
 	</div>

@@ -79,6 +79,7 @@ define([
             // Load the compiled HTML into the Backbone "el"
             
             $(this.el).html(Mustache.to_html( homeT ) );
+            
             if( this.collection.length == 0 )
                 this.collection.fetch({reset:true});
             else

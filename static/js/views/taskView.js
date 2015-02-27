@@ -22,6 +22,8 @@ define([
         initialize: function(){
             this.render();
             this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'sync', this.render);
+            
         },
 
         //Render
@@ -37,7 +39,7 @@ define([
         taskEdit:function(){
 
             this.app_router.navigate("/task/"+ this.model.get("id")+"/edit",{trigger: true, replace: true});
-            console.log("Editar ");
+            
         },
         taskDel:function(){
             
