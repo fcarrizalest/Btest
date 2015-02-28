@@ -17,6 +17,11 @@
 			background-image: url("static/img/ajax-loader.gif");
 			background-repeat: no-repeat;
 		}
+		.meter{
+
+			-webkit-transition: width 2s; /* For Safari 3.1 to 6.0 */
+    		transition: width 2s;
+		}
 
 		
 	</style>

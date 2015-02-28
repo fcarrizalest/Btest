@@ -66,6 +66,7 @@ define([
             //Add collection in view
             iView.collection = this.collection;
             iView.app_router =  this.app_router;
+            iView.collectionSubtask = this.collectionSubtask;
             //Add view in array
             this.iViews.push(iView);
 

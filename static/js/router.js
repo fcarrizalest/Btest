@@ -30,11 +30,14 @@ define([
     collection.comparator = 'order';
 
     
-
+    var collectionSubtask = new generalCollection();
 
     var $HomeView = new HomeView({collection:collection});
+    $HomeView.collectionSubtask = collectionSubtask;
     var $newTask = new NewTaskView( {collection:collection  }  );
     
+    $newTask.collectionSubtask = collectionSubtask;
+
 
     //Initialize
     var initialize = function(){

@@ -30,7 +30,6 @@ define([
         render: function(){
 
           
-
             //Add model in view
             $(this.el).html(Mustache.to_html( RowTemplate , this.model.toJSON()));
 
@@ -46,7 +45,6 @@ define([
             this.model.destroy( );
 
 
-            console.log("clik");
         },
         taskStatus:function(){
 
@@ -59,10 +57,12 @@ define([
                     success: function( data ){
 
                            
-
-                            $jq('#'+$self.model.get("id") +'_meter').css('width',data.progress + "%" );
-
-
+                        $con = parseInt(  $jq('#'+$self.model.get("id") +'_meter').css('width') );
+                        
+                        $progress = parseInt( data.progress  );
+                        
+                        $jq('#'+$self.model.get("id") + '_meter').css('width', $progress + "%" );
+                        
                     },
                     dataType:"json"
   
@@ -73,7 +73,7 @@ define([
         taskRun:function(){
 
             var $self = this;
-
+            var $jq = $;
             var timerId =  setInterval(function(){
 
                 $self.taskStatus();
@@ -86,21 +86,18 @@ define([
                     success: function(){
 
                         clearTimeout(timerId);
-
+                        $jq('#'+$self.model.get("id") + '_meter').css('width', "100%" );
+                        
                     },
   
             });
             
 
-
-
-            
-
         },
         events:{
-            "click .del" : "taskDel",
+            "click .del"  : "taskDel",
             'click .edit' : "taskEdit",
-            "click .run" : "taskRun"
+            "click .run"  : "taskRun"
         },
 
     });

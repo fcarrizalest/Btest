@@ -84,14 +84,40 @@ define([
         },
         showHtml: function(  ){
 
+            $self = this;
             if( this.$id ) {
                 
 
                 $( this.el ).html ( Mustache.to_html(homeT  ,  this.model.toJSON() ) );
                 
-                this.$subtasklistView.collection.url = "task/" + this.$id +"/subtask";
 
-                this.$subtasklistView.collection.fetch({reset:true});
+                console.log("Huevo en!!!");
+
+                $models = this.collectionSubtask.where(  { parentId: this.$id }  );
+                
+                if( $models.length == 0 ){
+
+                    this.$subtasklistView.collection.url = "task/" + this.$id +"/subtask";
+
+                    this.$subtasklistView.collection.fetch({reset:true , success:function(collection, response, options){
+
+                            console.log(  "Patetico collection  ");
+
+                            console.log( $self.collectionSubtask );
+                            $self.collectionSubtask.add( response.data );
+                            
+
+
+                    } });
+                }else{
+
+                    $models = this.collectionSubtask.where(  { parentId: this.$id }  );
+                    console.log("Tenemos un subview");
+                    console.log( $models );
+                    this.$subtasklistView.collection.reset( $models );
+
+                }
+                
 
             }else{
 

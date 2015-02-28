@@ -168,7 +168,13 @@ $app->get('/task/:id/subtask', $delay,function($id) use ($app,$Cache ) {
 		}
 	}else{
 
-		$task[] = array("id" => time() , "name" => "n".time() , "order" => "10");
+		$a = rand ( 1 , 5 );
+		for ($i=0; $i < $a ; $i++) { 
+			$task[] = array("id" => $i.time() , "parentId" => $id , "name" => $id."n".time() , "order" => $i);
+		
+		}
+		$Cache->store($id."_sutask" , $task  );
+	
 	}
 
 
