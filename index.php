@@ -10,7 +10,7 @@ $app = new \Slim\Slim();
 $Cache = new Cache();
 $delay = function(){
 
-	sleep(1);
+	//sleep(1);
 };
 
 $app->get('/',$delay,function() use ($app, $Cache) {
@@ -46,6 +46,15 @@ $app->put('/task/:id',$delay,function($id) use ($app, $Cache) {
 
 		$taskJ = array();
 	}
+
+
+ // This is our new stuff
+    $context = new ZMQContext();
+    $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+    $socket->connect("tcp://localhost:5555");
+    $taskJ['event'] = "updateTask";
+    $socket->send(json_encode( $taskJ ));
+
 	
 	echo json_encode( $taskJ );
 
@@ -66,6 +75,14 @@ $app->post('/task',$delay,function() use ($app, $Cache) {
 
 		$task[$id] = array('id' => $id  ,  'name' => $jA->name , 'order' => $jA->order  );
 	}
+
+
+ // This is our new stuff
+    $context = new ZMQContext();
+    $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+    $socket->connect("tcp://localhost:5555");
+
+    $socket->send(json_encode(array( 'event' =>  "newTask" , 'id' => $id , 'name' => $jA->name , 'order' => $jA->order )));
 
 
 	$Cache->store("task" , $task  );
@@ -102,7 +119,15 @@ $app->delete('/task/:id',$delay, function($id) use ($app, $Cache){
 
 		foreach ($task as $key => $value) {
 			if( $key = $id ){
-				unset($task[$key]);
+				
+
+				$context = new ZMQContext();
+			    $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+			    $socket->connect("tcp://localhost:5555");
+			   	$task[$key]['event'] = "deleteTask";
+			    $socket->send(json_encode( $task[$key] ));
+
+			    unset($task[$key]);
 			}
 		}
 
@@ -111,6 +136,8 @@ $app->delete('/task/:id',$delay, function($id) use ($app, $Cache){
 
 		$task = array();
 	}
+
+	
 
 });
 
@@ -179,7 +206,7 @@ $app->get('/task/:id/subtask', $delay,function($id) use ($app,$Cache ) {
 
 
 	// Para simular 	
-	sleep(2);
+	//sleep(2);
 	echo json_encode(  array( "data" => $task ) );
 
 

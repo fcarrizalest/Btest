@@ -36,6 +36,35 @@ define([
              
 
         },
+        onMessageNewTask: function( e ){ 
+             console.log(" onMessage   ");
+             console.log( e   );
+
+             this.collection.add( { id:  e.id , name: e.name , order: e.order } );
+
+        },
+
+        onMessageUpdateTask: function( e ){ 
+             console.log(" onMessage   ");
+             console.log( e   );
+
+             var model = this.collection.get( e.id );
+
+             model.set( "name" , e.name);
+             model.set( "order" , e.order);
+            
+             
+             //this.collection.set( { id:  e.id , name: e.name , order: e.order } );
+
+        },
+
+        onMessageDeleteTask: function( e ){ 
+             console.log(" onMessage   ");
+             console.log( e   );
+
+             this.collection.remove( { id:  e.id , name: e.name , order: e.order } );
+
+        },
         
          addAll: function(){
            

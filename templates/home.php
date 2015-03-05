@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
 	<script data-main="static/js/main" src="static/js/libs/require.js"></script>
 	<link rel="stylesheet" href="static/css/normalize.css">
 	<link rel="stylesheet" href="static/css/foundation.css" />
@@ -21,6 +22,10 @@
 
 			-webkit-transition: width 2s; /* For Safari 3.1 to 6.0 */
     		transition: width 2s;
+		}
+
+		#conectado{
+			display: none;
 		}
 
 		
@@ -48,6 +53,15 @@
 		</table>
 	</div>
 </div>
+
+<div class="row">
+	<div class="small-1 columns">
+		<div id="conectado">
+			Conectado
+		</div>
+	</div>
+</div>
+
 
 
 </body>

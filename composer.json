@@ -1,5 +1,12 @@
-{
+{	
+	"autoload": {
+        "psr-0": {
+            "App": "src"
+        }
+    },
     "require": {
-        "slim/slim": "*"
+        "slim/slim": "*",
+        "cboden/ratchet": "0.3.*",
+        "react/zmq": "0.2.*|0.3.*"
     }
 }

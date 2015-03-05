@@ -14,6 +14,8 @@ define([
 
 ],function($, _, Backbone, HomeView , generalCollection , NewTaskView ){
 
+
+
     //Routers
     var AppRouter = Backbone.Router.extend({
 
@@ -37,6 +39,41 @@ define([
     var $newTask = new NewTaskView( {collection:collection  }  );
     
     $newTask.collectionSubtask = collectionSubtask;
+
+
+    var conn = new ab.Session('ws://10.211.55.6:8080',
+                    function() {
+                    
+                    $("#conectado").show();
+                     conn.subscribe('newTask', function(topic, data) {
+                    // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        
+                         $HomeView.onMessageNewTask( data ); 
+                        //console.log('New article published to category "' + topic + '" : ' + data.title);
+                    });
+
+                     conn.subscribe('updateTask', function(topic, data) {
+                    // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        
+                         $HomeView.onMessageUpdateTask( data ); 
+                        //console.log('New article published to category "' + topic + '" : ' + data.title);
+                    });
+
+                      conn.subscribe('deleteTask', function(topic, data) {
+                    // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        
+                         $HomeView.onMessageDeleteTask( data ); 
+                        //console.log('New article published to category "' + topic + '" : ' + data.title);
+                    });
+                },
+                function() {
+                    $("#conectado").hide();
+                    console.warn('WebSocket connection closed');
+
+                },
+                {'skipSubprotocolCheck': true}
+            );
+
 
 
     //Initialize
