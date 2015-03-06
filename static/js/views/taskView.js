@@ -26,6 +26,20 @@ define([
             
         },
 
+        setConn:function(conn){
+
+            
+            $self = this;
+             conn.subscribe(  this.model.get("id") + 'statusTask', function(topic, data) {
+                    // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        
+
+                         $self.onMessageStatusTask( data ); 
+                        //console.log('New article published to category "' + topic + '" : ' + data.title);
+                    });
+
+        },
+
         //Render
         render: function(){
 
@@ -46,38 +60,22 @@ define([
 
 
         },
-        taskStatus:function(){
+        onMessageStatusTask:function(e){
 
-
-            var $jq = $;
-            var $self = this;
-            $.ajax({
-                    url: 'task/'+ this.model.get("id") + "/status",
-                    data: {} ,
-                    success: function( data ){
-
-                           
-                        $con = parseInt(  $jq('#'+$self.model.get("id") +'_meter').css('width') );
                         
-                        $progress = parseInt( data.progress  );
-                        
-                        $jq('#'+$self.model.get("id") + '_meter').css('width', $progress + "%" );
-                        
-                    },
-                    dataType:"json"
-  
-            });
+            $progress = parseInt( e.progress  );
             
-           
+            console.log('#'+e.id + '_meter' );
+            $('#'+ e.id + '_meter').css('width', $progress + "%" );
+                        
+
         },
+        
         taskRun:function(){
 
             var $self = this;
             var $jq = $;
-            var timerId =  setInterval(function(){
-
-                $self.taskStatus();
-            } , 2015);
+           
             
 
             $.ajax({
@@ -85,7 +83,7 @@ define([
                     data: {} ,
                     success: function(){
 
-                        clearTimeout(timerId);
+                     
                         $jq('#'+$self.model.get("id") + '_meter').css('width', "100%" );
                         
                     },

@@ -1,7 +1,7 @@
 <?php
-require './vendor/autoload.php';
-require './Cache.php';
-define('TMP_TASK', sys_get_temp_dir(). '/Task/');
+require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/Cache.php';
+define('TMP_TASK', '/tmp/Task/');
 
 if( !file_exists( TMP_TASK ) )
 	mkdir(TMP_TASK);
@@ -10,7 +10,7 @@ $app = new \Slim\Slim();
 $Cache = new Cache();
 $delay = function(){
 
-	//sleep(1);
+	sleep(2);
 };
 
 $app->get('/',$delay,function() use ($app, $Cache) {
@@ -160,6 +160,12 @@ $app->get('/task/:id/run',$delay,function($id) use ($app, $Cache) {
 		
 		file_put_contents( TMP_TASK.$id."_progres.json" , json_encode( array( "progress" => $i )));
 		
+
+		$context = new ZMQContext();
+			    $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+			    $socket->connect("tcp://localhost:5555");
+			   	$task[$key]['event'] = $id."statusTask";
+			    $socket->send(json_encode( array( "id" => $id , "event" => $id."statusTask" ,  "progress" => $i) ));
 		$t = rand ( 1 , 10 );
 
 		if( $t > 6)

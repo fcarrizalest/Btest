@@ -45,10 +45,10 @@
 		<div class="loading">
 			&nbsp;
 		</div>
-		<table id="page">
+		<table role="grid"  id="page">
 
 		</table>
-		<table id="list_A">
+		<table id="list_A" role="grid" >
 
 		</table>
 	</div>

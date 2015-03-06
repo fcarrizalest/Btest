@@ -92,6 +92,9 @@ define([
                 model: missue
             });
 
+
+            iView.setConn( this.conn );
+
             //Add collection in view
             iView.collection = this.collection;
             iView.app_router =  this.app_router;

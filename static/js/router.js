@@ -41,7 +41,7 @@ define([
     $newTask.collectionSubtask = collectionSubtask;
 
 
-    var conn = new ab.Session('ws://10.211.55.6:8080',
+    var conn = new ab.Session('ws://192.168.59.103:8080',
                     function() {
                     
                     $("#conectado").show();
@@ -65,6 +65,8 @@ define([
                          $HomeView.onMessageDeleteTask( data ); 
                         //console.log('New article published to category "' + topic + '" : ' + data.title);
                     });
+
+                      $HomeView.conn = conn;
                 },
                 function() {
                     $("#conectado").hide();
