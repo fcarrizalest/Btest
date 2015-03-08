@@ -4,3 +4,4 @@
 *.phar
 
 vendor
+node_modules

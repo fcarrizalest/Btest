@@ -2,6 +2,9 @@
 require __DIR__.'/vendor/autoload.php';
 require __DIR__.'/Cache.php';
 define('TMP_TASK', '/tmp/Task/');
+session_cache_limiter(false);
+session_start();
+
 
 if( !file_exists( TMP_TASK ) )
 	mkdir(TMP_TASK);
@@ -10,14 +13,34 @@ $app = new \Slim\Slim();
 $Cache = new Cache();
 $delay = function(){
 
-	sleep(2);
+	//echo $_SESSION['stemer_ticket'];
+	$app = \Slim\Slim::getInstance();
+	//echo "aahaha	ha";
+	$env = $app->environment;
+
+	
+	//sleep(2);
 };
+
+$app->add(new \Slim\Middleware\SessionCookie(array(
+    'expires' => '60 minutes',
+    'path' => '/',
+    'domain' => null,
+    'secure' => false,
+    'httponly' => false,
+    'name' => 'slim_session',
+    'secret' => 'cha',
+    'cipher' => MCRYPT_RIJNDAEL_256,
+    'cipher_mode' => MCRYPT_MODE_CBC
+)));
 
 $app->get('/',$delay,function() use ($app, $Cache) {
 
-
-	
-	$app->render('home.php' );
+	$app = \Slim\Slim::getInstance();
+	//echo "aahaha	ha";
+	$env = $app->environment;
+		
+	$app->render('home.php' , array( "env" => $env  ) );
 
 
 

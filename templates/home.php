@@ -3,6 +3,11 @@
 <head>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript">
+
+    	var HTTP_HOST = "<?php echo $env['HTTP_HOST'] ?>";
+
+    </script>
     <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
 	<script data-main="static/js/main" src="static/js/libs/require.js"></script>
 	<link rel="stylesheet" href="static/css/normalize.css">
@@ -58,6 +63,9 @@
 	<div class="small-1 columns">
 		<div id="conectado">
 			Conectado
+		</div>
+		<div id="error">
+			Algo Esta Mal
 		</div>
 	</div>
 </div>

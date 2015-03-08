@@ -41,10 +41,11 @@ define([
     $newTask.collectionSubtask = collectionSubtask;
 
 
-    var conn = new ab.Session('ws://192.168.59.103:8080',
+    var conn = new ab.Session('ws://'+HTTP_HOST+':8080',
                     function() {
                     
                     $("#conectado").show();
+                    $("#error").hide();
                      conn.subscribe('newTask', function(topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         
@@ -70,6 +71,7 @@ define([
                 },
                 function() {
                     $("#conectado").hide();
+                    $("#error").show();
                     console.warn('WebSocket connection closed');
 
                 },
@@ -130,11 +132,6 @@ define([
 
          } );
 
-
-         
-
-
-       
 
         // Start Backbone history a necessary step for bookmarkable URL's
         Backbone.history.start();

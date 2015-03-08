@@ -1,0 +1,26 @@
+{
+  "name": "Btest",
+  "version": "0.0.1",
+  "description": "Pruebas de Backbone, sockets php",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fcarrizalest/Btest.git"
+  },
+  "private": true,
+  "author": "Francisco Carrizales",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcarrizalest/Btest/issues"
+  },
+  "homepage": "https://github.com/fcarrizalest/Btest",
+   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-rsync": "^0.6.2",
+    "grunt-shell": "^1.1.2"
+  }
+}
