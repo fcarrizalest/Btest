@@ -22,6 +22,8 @@ define([
         render: function(){ 
         	
         	 $(this.el).html(Mustache.to_html( chatItem , this.model.toJSON()));
+             $(this.el).addClass("row");
+             $(this.el).addClass("c"+ this.model.get("id"));
 
         }
 

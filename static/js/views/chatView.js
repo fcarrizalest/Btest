@@ -121,6 +121,17 @@ define([
         render: function(){ 
             $(this.el).html(Mustache.to_html( chatT  ) );
 
+            
+            $("#username").val($datos.username());
+
+            if( $datos.username() != "" ){
+                $("#username").hide();
+                $("#msg").show();
+
+            }
+                
+
+
         },events:{
             "click #send" : "send",
             "keyup #msg"  : "keyPressEventHandler",

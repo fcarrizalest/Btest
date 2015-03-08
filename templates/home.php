@@ -11,6 +11,8 @@
 
     		 var HTTP_HOST = "<?php echo $env['HTTP_HOST'] ?>";
     		 var uid = "<?php echo $sid  ?>";
+    		 var username = "<?php echo $username ?>";
+    		 
     		 function Info( ) {
     // Store the mileage property privately.
     			
@@ -23,6 +25,11 @@
   			Info.prototype.sid = function(){
 
   				return uid;
+  			}
+
+  			Info.prototype.username = function(){
+
+  				return username ;
   			}
 
   			return Info;
@@ -41,10 +48,10 @@
 	<style type="text/css">
 		#con{
  
- overflow-x:hidden;
-    overflow-y:visible;
-height:200px;
-}	
+		 overflow-x:hidden;
+		    overflow-y:visible;
+		height:200px;
+		}	
 		.loading:after{
 			content: " ";
 		}

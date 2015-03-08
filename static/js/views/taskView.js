@@ -36,7 +36,7 @@ define([
 
                          $self.onMessageStatusTask( data ); 
                         //console.log('New article published to category "' + topic + '" : ' + data.title);
-                    });
+            });
 
         },
 

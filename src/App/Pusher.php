@@ -6,7 +6,7 @@ use Ratchet\Wamp\WampServerInterface;
 class Pusher implements WampServerInterface {
 
     protected $subscribedTopics = array();
-
+    protected $users = array();
     public function onSubscribe(ConnectionInterface $conn, $topic) {
 
         $this->subscribedTopics[$topic->getId()] = $topic;
@@ -21,14 +21,7 @@ class Pusher implements WampServerInterface {
 
         echo "nueva Conexion";
 
-       if(  isset( $this->subscribedTopics["newUser"] ) ){
-            //nuevo usuario conectado.
-            $topic = $this->subscribedTopics["newUser"];
-           
-            $entry['nuevo'] = "nuevo";
-
-            $topic->broadcast($entry);
-       }
+      
 
     }
     public function onClose(ConnectionInterface $conn) {
@@ -42,7 +35,7 @@ class Pusher implements WampServerInterface {
     }
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
         // In this application if clients send data it's because the user hacked around in console
-        //$conn->close();
+        $conn->close();
        
 
         $topic->broadcast($event);
@@ -67,6 +60,13 @@ class Pusher implements WampServerInterface {
 
         $topic = $this->subscribedTopics[$entryData['event']];
 
+        if( $topic->getId() == "newChat" ){
+            // Es un Nuevo Mensaje
+            $this->users[ $entryData['sid']] = $entryData['username'];
+            
+
+
+        }
         // re-send the data to all the clients subscribed to that category
         $topic->broadcast($entryData);
 

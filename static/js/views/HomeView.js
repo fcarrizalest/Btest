@@ -33,7 +33,7 @@ define([
             //this.collection.bind('sort', this.addAll , this.collection );
             this.collection.bind('change', this.addAll , this.collection );
             
-             
+            this.isConn = false;
 
         },
         onMessageNewTask: function( e ){ 
@@ -84,6 +84,12 @@ define([
             //send model the method addOne
             this.collection.each(this.addOne);
         },
+        setConn: function(conn ){
+
+            this.isConn = true;
+            this.addAll();
+
+        },
 
         addOne: function(missue){
 
@@ -92,8 +98,8 @@ define([
                 model: missue
             });
 
-
-            iView.setConn( this.conn );
+            if( this.isConn )
+                iView.setConn( this.conn );
 
             //Add collection in view
             iView.collection = this.collection;

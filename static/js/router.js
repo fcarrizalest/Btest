@@ -91,6 +91,7 @@ define([
                     });
 
                       $HomeView.conn = conn;
+                      $HomeView.setConn( conn );
                       $chatView.conn = conn ;
                 },
                 function() {

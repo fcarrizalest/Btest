@@ -22,6 +22,7 @@ $delay = function(){
 	
 
 	$app->view->setData("sid", session_id() ) ;
+
 	//sleep(2);
 };
 
@@ -42,8 +43,13 @@ $app->get('/',$delay,function() use ($app, $Cache) {
 	$app = \Slim\Slim::getInstance();
 	//echo "aahaha	ha";
 	$env = $app->environment;
-		
-	$app->render('home.php' , array( "env" => $env  ) );
+	//Vemos si tenemos un Usuario
+	if( $Cache->isCached("user" . session_id() ) ){
+    	$username = $Cache->retrieve("user". session_id()    );
+    }else{
+    	$username = "";
+    }
+	$app->render('home.php' , array( "env" => $env , "username" => $username  ) );
 
 
 
@@ -153,7 +159,7 @@ $app->post('/chat',$delay,function() use ($app, $Cache) {
         $chat[$id ] = array('id' => $id , 'username' => $jA['username'] , 'Message' => $jA['Message'] );
         echo json_encode(   $chat[$id ] );
         $chat[$id ]['event'] = "newChat";
-
+        $chat[$id]['sid'] =  session_id();
 		$context = new ZMQContext();
 	    $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
 	    $socket->connect("tcp://localhost:5555");
@@ -170,7 +176,10 @@ $app->post('/chat',$delay,function() use ($app, $Cache) {
 
     $Cache->store("chat" , $chat  );
 	
-
+    // Seteamos Nuestro Usuario.
+    if( !$Cache->isCached("user" . session_id() ) ){
+    	 $Cache->store("user". session_id()  , $jA['username']  );
+    }
 
 	
 	
