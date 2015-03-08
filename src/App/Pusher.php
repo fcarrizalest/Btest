@@ -21,7 +21,14 @@ class Pusher implements WampServerInterface {
 
         echo "nueva Conexion";
 
+       if(  isset( $this->subscribedTopics["newUser"] ) ){
+            //nuevo usuario conectado.
+            $topic = $this->subscribedTopics["newUser"];
+           
+            $entry['nuevo'] = "nuevo";
 
+            $topic->broadcast($entry);
+       }
 
     }
     public function onClose(ConnectionInterface $conn) {
@@ -36,7 +43,7 @@ class Pusher implements WampServerInterface {
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible) {
         // In this application if clients send data it's because the user hacked around in console
         //$conn->close();
-
+       
 
         $topic->broadcast($event);
 
@@ -62,6 +69,7 @@ class Pusher implements WampServerInterface {
 
         // re-send the data to all the clients subscribed to that category
         $topic->broadcast($entryData);
+
     }
     
 }

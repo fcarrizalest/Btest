@@ -10,9 +10,10 @@ define([
     'backbone',
     'views/HomeView',
     'collections/generalCollection',
-    'views/newTaskView'
+    'views/newTaskView',
+    'views/chatView'
 
-],function($, _, Backbone, HomeView , generalCollection , NewTaskView ){
+],function($, _, Backbone, HomeView , generalCollection , NewTaskView , chatView){
 
 
 
@@ -20,6 +21,7 @@ define([
     var AppRouter = Backbone.Router.extend({
 
         routes:{
+            'chat'                  :   'chat',
             'task/:id/addsubtask'   :   'subtaskadd',
             'task/:id/edit'         :   'taskEdit',
             'task/add'              :   'taskAdd', 
@@ -34,14 +36,21 @@ define([
     
     var collectionSubtask = new generalCollection();
 
+    var collectionChat = new generalCollection();
+    collectionChat.url = "chat";
+
+
     var $HomeView = new HomeView({collection:collection});
     $HomeView.collectionSubtask = collectionSubtask;
     var $newTask = new NewTaskView( {collection:collection  }  );
     
     $newTask.collectionSubtask = collectionSubtask;
 
+    var $chatView = new chatView( { collection:collectionChat });
 
-    var conn = new ab.Session('ws://'+HTTP_HOST+':8080',
+    
+
+    var conn = new ab.Session('ws://'+$datos.host()+':8080',
                     function() {
                     
                     $("#conectado").show();
@@ -67,7 +76,22 @@ define([
                         //console.log('New article published to category "' + topic + '" : ' + data.title);
                     });
 
+                      conn.subscribe('newChat', function(topic, data) {
+                    // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                            
+                         $chatView.onMessageNewChat( data ); 
+                        //console.log('New article published to category "' + topic + '" : ' + data.title);
+                    });
+
+                      conn.subscribe('newUser', function(topic, data) {
+                    // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                            
+                         $chatView.onMessageNewUser( data ); 
+                        //console.log('New article published to category "' + topic + '" : ' + data.title);
+                    });
+
                       $HomeView.conn = conn;
+                      $chatView.conn = conn ;
                 },
                 function() {
                     $("#conectado").hide();
@@ -131,6 +155,13 @@ define([
             
 
          } );
+
+
+         app_router.on('route:chat' , function() {
+
+
+
+         });
 
 
         // Start Backbone history a necessary step for bookmarkable URL's

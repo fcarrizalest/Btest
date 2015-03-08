@@ -5,16 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="text/javascript">
 
-    	var HTTP_HOST = "<?php echo $env['HTTP_HOST'] ?>";
+    	
+    	var Info = (function() { 
+
+
+    		 var HTTP_HOST = "<?php echo $env['HTTP_HOST'] ?>";
+    		 var uid = "<?php echo $sid  ?>";
+    		 function Info( ) {
+    // Store the mileage property privately.
+    			
+  			}
+
+  			Info.prototype.host = function() {
+    			return HTTP_HOST;
+  			}
+
+  			Info.prototype.sid = function(){
+
+  				return uid;
+  			}
+
+  			return Info;
+
+    	}());
+
+    	$datos = new Info();
+
 
     </script>
-    <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+    <script src="static/js/libs/autobahn.min.js"></script>
 	<script data-main="static/js/main" src="static/js/libs/require.js"></script>
 	<link rel="stylesheet" href="static/css/normalize.css">
 	<link rel="stylesheet" href="static/css/foundation.css" />
 	<script src="static/js/libs/modernizr.js"></script>
 	<style type="text/css">
-
+		#con{
+ 
+ overflow-x:hidden;
+    overflow-y:visible;
+height:200px;
+}	
 		.loading:after{
 			content: " ";
 		}
@@ -60,13 +90,33 @@
 </div>
 
 <div class="row">
-	<div class="small-1 columns">
+	<div class="small-2 columns">
 		<div id="conectado">
 			Conectado
 		</div>
 		<div id="error">
 			Algo Esta Mal
 		</div>
+	</div>
+
+
+	<div class="small-10 columns">
+		
+		<div  class="row" id="chat">
+
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-2 columns">
+		.
+	</div>
+
+
+	<div class="small-10 columns" id="con">
+		
+		
 	</div>
 </div>
 

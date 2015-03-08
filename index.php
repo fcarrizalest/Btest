@@ -19,6 +19,9 @@ $delay = function(){
 	$env = $app->environment;
 
 	
+	
+
+	$app->view->setData("sid", session_id() ) ;
 	//sleep(2);
 };
 
@@ -111,6 +114,69 @@ $app->post('/task',$delay,function() use ($app, $Cache) {
 	$Cache->store("task" , $task  );
 
 	echo json_encode(array('id' => $id , 'name' => $jA->name , 'order' => $jA->order ) );
+});
+
+$app->get('/chat',$delay,function() use ($app, $Cache) {
+
+	if( $Cache->isCached("chat") ){
+		$taskt = $Cache->retrieve("chat");
+		$task = array();
+		foreach ($taskt as $key => $value) {
+			# code...
+			$chat[] = $value;
+		}
+	}else{
+
+		$chat = array();
+	}
+
+
+	
+	echo json_encode(  array( "data" => $chat ) );
+	 
+	
+
+});
+
+
+$app->post('/chat',$delay,function() use ($app, $Cache) {
+	$body = $app->request->getBody();
+	$jA = json_decode($body,true);
+	$id =  time();
+    if( $Cache->isCached("chat") ){
+        $chat = $Cache->retrieve("chat");
+
+
+
+        $contador = count( $chat  ) + 1 ;
+                
+        $chat[$id ] = array('id' => $id , 'username' => $jA['username'] , 'Message' => $jA['Message'] );
+        echo json_encode(   $chat[$id ] );
+        $chat[$id ]['event'] = "newChat";
+
+		$context = new ZMQContext();
+	    $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+	    $socket->connect("tcp://localhost:5555");
+	   
+	    $socket->send(json_encode( $chat[$id ]  ));
+        $chat = array_slice( array_reverse( $chat ), 0, 20, true);
+        $chat = array_reverse( $chat );
+
+    }else{
+
+        $chat[$id ] = array('id' => $id , 'username' => $jA['username'] , 'Message' => $jA['Message'] );
+        echo json_encode(   $chat[$id ] );
+    }
+
+    $Cache->store("chat" , $chat  );
+	
+
+
+	
+	
+	 
+	
+
 });
 
 $app->get('/task',$delay,function() use ($app, $Cache) {
