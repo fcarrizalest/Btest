@@ -4,7 +4,24 @@ module.exports = function(grunt) {
 	remotePath: "/var/www/html/btest/",
 	pkg: grunt.file.readJSON('package.json'),
 	
-	
+	requirejs: {
+		compile: {
+		    options: {
+		      baseUrl: "./static/js/",
+		      paths: {
+			      jquery        :   'libs/jquery',
+			      underscore    :   'libs/underscore',
+			      backbone      :   'libs/backbone',
+			      mustache      :   'libs/mustache',
+			      templates     :   '../templates'
+
+			  },
+		    
+		      name: "main", // assumes a production build using almond 
+		      out: "./static/js/main-build.js"
+	    	}
+	  	}
+	},
 	rsync: {
 		dev: {
 		  
@@ -66,10 +83,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-rsync');
   grunt.loadNpmTasks('grunt-shell');
-  
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+
+
   grunt.registerTask('build', ['shell:mountBuild', 'shell:mountBuild2' , 'rsync:build' ]);
   grunt.registerTask('ver', [ 'watch:phpWatch']);
   
   grunt.registerTask('test', [ 'shell:test']);
-  grunt.registerTask('default', [ 'rsync:dev']);
+  grunt.registerTask('default', [ 'requirejs:compile']);
 };

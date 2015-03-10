@@ -17,8 +17,9 @@
     "url": "https://github.com/fcarrizalest/Btest/issues"
   },
   "homepage": "https://github.com/fcarrizalest/Btest",
-   "devDependencies": {
+  "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-rsync": "^0.6.2",
     "grunt-shell": "^1.1.2"

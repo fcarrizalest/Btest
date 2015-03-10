@@ -11,9 +11,10 @@ define([
     'views/HomeView',
     'collections/generalCollection',
     'views/newTaskView',
-    'views/chatView'
+    'views/chatView',
+    'views/newSubTaskView'
 
-],function($, _, Backbone, HomeView , generalCollection , NewTaskView , chatView){
+],function($, _, Backbone, HomeView , generalCollection , NewTaskView , chatView,newSubTaskView){
 
 
 
@@ -47,6 +48,8 @@ define([
     $newTask.collectionSubtask = collectionSubtask;
 
     var $chatView = new chatView( { collection:collectionChat });
+
+    var $newSubTaskView = new newSubTaskView({collection:collectionSubtask  });
 
     
 
@@ -86,13 +89,13 @@ define([
                       conn.subscribe('newUser', function(topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                             
-                         $chatView.onMessageNewUser( data ); 
+                        chatView.onMessageNewUser( data ); 
                         //console.log('New article published to category "' + topic + '" : ' + data.title);
                     });
 
                       $HomeView.conn = conn;
                       $HomeView.setConn( conn );
-                      $chatView.conn = conn ;
+                     // $chatView.conn = conn ;
                 },
                 function() {
                     $("#conectado").hide();
@@ -152,15 +155,15 @@ define([
 
             
             console.log("New SubTaskAdd: " + $id  );
-
-            
+            $newSubTaskView.$id = $id;
+            $newSubTaskView.render();
 
          } );
 
 
          app_router.on('route:chat' , function() {
 
-
+            $chatView.render();
 
          });
 

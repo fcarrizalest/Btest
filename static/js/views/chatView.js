@@ -25,7 +25,7 @@ define([
             //this.collection.bind('sort', this.addAll , this.collection );
             this.collection.bind('change', this.addAll , this.collection );
 
-            this.render();
+            //this.render();
             this.model.url = "chat";
 
             this.collection.fetch({reset:true});

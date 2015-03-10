@@ -18,9 +18,6 @@ $delay = function(){
 	//echo "aahaha	ha";
 	$env = $app->environment;
 
-	
-	
-
 	$app->view->setData("sid", session_id() ) ;
 
 	//sleep(2);
