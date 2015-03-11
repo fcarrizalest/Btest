@@ -5,11 +5,12 @@ define([
     'mustache',
     'models/generalModel',
     'views/chatItemView',
-    'text!templates/chat.html'
+    'text!templates/chat.html',
+    'aes'
     
     
 
-], function($, _, Backbone , Mustache , generalModel , chatItemView ,chatT ){
+], function($, _, Backbone , Mustache , generalModel , chatItemView ,chatT,aes ){
 
     //Views
     var HomeView = Backbone.View.extend({
@@ -52,6 +53,9 @@ define([
 
         addOne: function(missue){
 
+            console.log("addOne");
+            console.log(missue);
+
             // Instantiate the View
             var iView = new chatItemView({
                 model: missue
@@ -82,16 +86,24 @@ define([
                 $("#username").hide();
                 $("#msg").show()
                 var txt = $("#msg").val();
+                txt=txt.replace("\n"," ");
+                txt = txt.trim();
 
-                $("#msg").val(" ");
-                var myTopic = "newChat";
-                var myEvent = {  username:username, sid: $datos.sid() , event:"newChat" ,  Message: txt  };
+                if( txt.length > 0 ){
 
-                //console.log(this.conn);
-                if( txt != ""){
-                    //this.conn.publish(myTopic, myEvent);
-                    this.model.set("Message", txt);
-                    this.model.save();
+                    
+                    // encriptamos el mensaje
+                    txt = aes.Ctr.encrypt(txt, "12345", 256);
+                    $("#msg").val(" ");
+                    var myTopic = "newChat";
+                    var myEvent = {  username:username, sid: $datos.sid() , event:"newChat" ,  Message: txt  };
+
+                    //console.log(this.conn);
+                    if( txt != ""){
+                        //this.conn.publish(myTopic, myEvent);
+                        this.model.set("Message", txt);
+                        this.model.save();
+                    }
                 }
             }
 
@@ -107,7 +119,8 @@ define([
             console.log("Nuevo Mensaje ");
             console.log(e);
 
-            this.collection.add(e);
+            this.collection.add(e );
+
             console.log( $('#con').scrollHeight);
             $('#con').animate({ scrollTop: $('#con')[0].scrollHeight }, 1000 );
                  

@@ -11,7 +11,8 @@ require.config({
       underscore    :   'libs/underscore',
       backbone      :   'libs/backbone',
       mustache      :   'libs/mustache',
-      templates     :   '../templates'
+      templates     :   '../templates',
+      aes           :   'libs/aes'
 
   }
 

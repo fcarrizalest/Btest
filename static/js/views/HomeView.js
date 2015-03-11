@@ -24,7 +24,8 @@ define([
         initialize: function(){
 
             
-         
+            
+
             this.collection.url = "task";
             _.bindAll(this, 'addOne', 'addAll');
             this.collection.bind('reset', this.addAll ,this.collection );
